@@ -33,9 +33,7 @@ libraryDependencies ++= Seq(
     "org.scalatestplus.play"                %% "scalatestplus-play"                 % "4.0.3" % Test,
     "ai.x"                                  %% "play-json-extensions"               % "0.10.0",
     ehcache,
-    guice,
-    jdbc,
-    ws
+    guice
 )
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.example.controllers._"

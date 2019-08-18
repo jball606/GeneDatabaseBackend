@@ -25,13 +25,14 @@ class HomeController @Inject()(cc: ControllerComponents  , geneData: GeneData ) 
    */
     def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
 
-            //val bob = new GeneData
+            Ok("I am now working and ready to go")
+    }
 
-            Ok("BOB")
-
-
-  }
-
+    /**
+     * This is the route that will let you get any auto suggest you want based on a request
+     * @param gene
+     * @return
+     */
     def autoSuggestGene(gene:String): Action[AnyContent] = Action {
 
         val found_data: Seq[Gene] = geneData.findGeneRecords(gene)
@@ -48,6 +49,10 @@ class HomeController @Inject()(cc: ControllerComponents  , geneData: GeneData ) 
 
     }
 
+    /**
+     * Gets all the gene names, in cause you want to pre-fill the auto suggest
+     * @return
+     */
     def getAllGeneNames: Action[AnyContent] = Action {
         val genes: Seq[String] = geneData.getAllGeneNames
         val objects: Seq[JsObject] = genes.map(i => Json.obj("id"->i,"name"->i))
@@ -56,6 +61,11 @@ class HomeController @Inject()(cc: ControllerComponents  , geneData: GeneData ) 
         Ok(Json.toJson(objects))
     }
 
+    /**
+     * Here is the one for finding the Genes, with the proten marker being the second unique identifier
+     * @param gene
+     * @return
+     */
     def findGene(gene:String): Action[AnyContent] = Action {
 
         val found_data: Seq[Gene] = geneData.findGeneRecords(gene).sortBy(i => i.gene)
@@ -64,7 +74,10 @@ class HomeController @Inject()(cc: ControllerComponents  , geneData: GeneData ) 
         Ok(bob)
     }
 
-
+    /**
+     * Have to be able to have nagios hit this thing to make sure it is up
+     * @return
+     */
     def amIWorking: Action[AnyContent] = Action {
         Ok("YES")
     }
