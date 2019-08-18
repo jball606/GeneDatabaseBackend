@@ -1,6 +1,7 @@
 package models
 
 import com.google.inject.Singleton
+import play.api.libs.json.{JsObject, Json}
 
 import scala.io.{BufferedSource, Source}
 
@@ -33,6 +34,19 @@ class GeneData
     }
 
         found_data
+    }
+
+    /**
+     * To make the auto suggest more testable
+     * @param request:String
+     * @return
+     */
+    def autoSuggestRecords(request:String):Option[Seq[String]] = {
+        val found_data: Seq[Gene] = this.findGeneRecords(request)
+
+        val test: Option[Seq[String]] = found_data.map(i => i.gene).sorted.distinct.grouped(5).toList.headOption
+
+        return test
     }
 
     /**

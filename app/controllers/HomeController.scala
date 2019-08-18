@@ -35,13 +35,10 @@ class HomeController @Inject()(cc: ControllerComponents  , geneData: GeneData ) 
      */
     def autoSuggestGene(gene:String): Action[AnyContent] = Action {
 
-        val found_data: Seq[Gene] = geneData.findGeneRecords(gene)
+        val test: Option[Seq[String]] = geneData.autoSuggestRecords(gene)
 
-        val test: Option[Seq[String]] = found_data.map(i => i.gene).sorted.distinct.grouped(5).toList.headOption
         if(test.nonEmpty) {
             val objects: Seq[JsObject] = test.get.map(i => Json.obj("value"->i,"label"->i))
-
-
             Ok(Json.toJson(objects))
         } else {
             Ok("[]")
